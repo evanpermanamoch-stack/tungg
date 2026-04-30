@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Jasteb | Vanzz Hosting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Background Keren Abstract Dark */
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://files.catbox.moe/583eca.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #e0e0e0;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+        }
+
+        /* Efek Kaca (Glassmorphism) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        h2, label {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Custom Input Fields */
+        .form-control {
+            background-color: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff !important;
+            height: 45px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            border-color: #00d2ff;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+        }
+        .form-control[readonly] {
+            background-color: rgba(0, 0, 0, 0.6) !important;
+            color: #aaa !important;
+            cursor: not-allowed;
+        }
+
+        /* Tombol Keren (Gradient) */
+        .btn-custom {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+            width: 100%;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(56, 239, 125, 0.6);
+            color: #fff;
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(255, 75, 43, 0.4);
+            transition: 0.3s;
+        }
+        .btn-delete:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 75, 43, 0.6);
+        }
+
+        /* Table Styling */
+        .table-custom {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+        .table-custom thead th {
+            border: none;
+            color: #00d2ff;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            padding: 15px;
+        }
+        .table-custom tbody tr {
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+        .table-custom tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.01);
+        }
+        .table-custom td {
+            border: none;
+            padding: 15px;
+            vertical-align: middle;
+            color: #fff;
+        }
+        .table-custom td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .table-custom td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            text-align: center;
+        }
+
+        /* Logo Animation */
+        .logo-container img {
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+            transition: transform 0.5s;
+        }
+        .logo-container img:hover {
+            transform: rotate(360deg);
+        }
+
+        /* Mini music player styling */
+        .music-player-mini {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 50px;
+            z-index: 999;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .music-player-mini i {
+            font-size: 18px;
+            cursor: pointer;
+            color: #38ef7d;
+            transition: 0.2s;
+        }
+        .music-player-mini i:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+        .music-player-mini span {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* badge limit biar aesthetic */
+        .badge-limit {
+            background: rgba(56, 239, 125, 0.2);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            color: #38ef7d;
+        }
+    </style>
+</head>
+<body>
+
+<!-- AUTO PLAY MUSIC (SAMA PERSIS SEPERTI WEB PERTAMA) -->
+<div class="music-player-mini" id="musicPlayerMini">
+    <i class="fas fa-music" id="musicIcon" style="cursor:pointer"></i>
+    <span id="musicTitle">Loading music...</span>
+    <i class="fas fa-volume-up" id="volumeIcon" style="cursor:pointer"></i>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/qdrcxe.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+    // AUTO PLAY MUSIC DENGAN USER INTERACTION (SAMA PERSIS)
+    (function() {
+        const audio = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const musicTitleSpan = document.getElementById('musicTitle');
+        
+        let isPlaying = false;
+        let isMuted = false;
+        
+        musicTitleSpan.innerText = "Background Music";
+        
+        function playMusicOnInteraction() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicIcon.className = "fas fa-pause";
+                }).catch(e => {
+                    console.log("Auto play prevented, need user interaction");
+                    musicIcon.className = "fas fa-play";
+                });
+            } else {
+                audio.pause();
+                isPlaying = false;
+                musicIcon.className = "fas fa-play";
+            }
+        }
+        
+        musicIcon.addEventListener('click', playMusicOnInteraction);
+        
+        volumeIcon.addEventListener('click', function() {
+            if (isMuted) {
+                audio.muted = false;
+                volumeIcon.className = "fas fa-volume-up";
+                isMuted = false;
+            } else {
+                audio.muted = true;
+                volumeIcon.className = "fas fa-volume-mute";
+                isMuted = true;
+            }
+        });
+        
+        audio.volume = 0.3;
+        
+        const attemptAutoPlay = () => {
+            audio.play().then(() => {
+                isPlaying = true;
+                musicIcon.className = "fas fa-pause";
+            }).catch(() => {
+                musicIcon.className = "fas fa-play";
+            });
+            document.removeEventListener('click', attemptAutoPlay);
+            document.removeEventListener('touchstart', attemptAutoPlay);
+        };
+        
+        audio.play().then(() => {
+            isPlaying = true;
+            musicIcon.className = "fas fa-pause";
+        }).catch(() => {
+            document.addEventListener('click', attemptAutoPlay, { once: true });
+            document.addEventListener('touchstart', attemptAutoPlay, { once: true });
+            musicIcon.className = "fas fa-play";
+        });
+    })();
+</script>
+
+<div class="container">
+    
+    <div class="text-center logo-container mb-4">
+        <img src="https://ibb.co.com/hxRFyQS7" alt="Logo" width="120" height="120">
+        <h3 class="mt-3 font-weight-bold">Panel <span style="color:#38ef7d"> Vanzz Hosting </span></h3>
+    </div>
+
+    <div class="glass-card">
+        <div class="form-group">
+            <label for="namaResult"><i class="fas fa-id-card mr-2"></i>Nama Result</label>
+            <input type="text" id="namaResult" class="form-control" value="RESS GG VANZZ HOSTING" placeholder="Masukkan nama result...">
+        </div>
+        <div class="form-group">
+            <label for="panelMurni"><i class="fas fa-server mr-2"></i>Panel Murni (Sender)</label>
+            <input type="text" id="panelMurni" class="form-control" value="jasteb@gacor.com" readonly>
+        </div>
+        <button id="gantiButton" class="btn btn-custom mt-2">
+            <i class="fas fa-sync-alt mr-2"></i> Ganti Data
+        </button>
+    </div>
+
+    <div class="glass-card">
+        <h4 class="mb-4 text-center border-bottom pb-2 border-secondary">Configuration Email</h4>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope mr-2"></i>Tambah Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="admin@example.com" required>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="jumlahResult"><i class="fas fa-sort-numeric-up mr-2"></i>Jumlah</label>
+                    <input type="number" id="jumlahResult" name="jumlahResult" class="form-control" value="100" required>
+                </div>
+            </div>
+        </div>
+        
+        <button id="addEmailButton" class="btn btn-custom mt-2 mb-4">
+            <i class="fas fa-plus-circle mr-2"></i> Tambah Email
+        </button>
+
+        <h5 class="mt-4"><i class="fas fa-list mr-2"></i>Daftar Email Aktif</h5>
+        <div class="table-responsive">
+            <table id="emailTable" class="table table-custom">
+                <thead>
+                    <tr>
+                        <th>Email Penerima</th>
+                        <th class="text-center">Limit Result</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="emailData">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center text-muted mt-3" style="font-size: 12px;">
+        &copy; <?= date('Y'); ?> Copyright By Vanzz Hosting Since 2022
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    // =====================================================
+    // TAMPILAN PERTAMA (GLASS + MUSIC) TAPI PERILAKUNYA MENGIKUTI WEB KEDUA
+    // - Tombol Ganti Data => popup beli premium
+    // - Tombol Tambah Email => popup server penuh + wa admin
+    // - Daftar email: data asli dari data.php + 15 email fake, auto refresh 5 detik
+    // - Tidak ada fungsi delete (tombol aksi hanya "⏳ Proses")
+    // - Promo popup muncul 5 detik setelah load
+    // =====================================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set default value (sesuai target)
+        const namaInput = document.getElementById('namaResult');
+        const panelInput = document.getElementById('panelMurni');
+        if(namaInput.value.trim() === "") namaInput.value = "RESS MARGA JAWABEST";
+        if(panelInput.value.trim() === "") panelInput.value = "jawabest@gacor.com";
+        
+        // TOMBOL GANTI DATA => POPUP PREMIUM (seperti target)
+        const gantiBtn = document.getElementById('gantiButton');
+        if(gantiBtn) {
+            gantiBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '💎 KHUSUS PREMIUM 💎',
+                    html: `
+                        Fitur Ini Hanya Untuk Panel Pribadi<br><br>
+                        Klik tombol di bawah buat buy panel 👇
+                    `,
+                    icon: 'info',
+                    background: '#0d0d0d',
+                    color: '#fff',
+                    confirmButtonText: 'Beli Sekarang',
+                    confirmButtonColor: '#38ef7d'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.open('https://wa.me//6285188181356?text=Saya+mau+beli+panel+premium+bang', '_blank');
+                    }
+                });
+            });
+        }
+        
+        // TOMBOL TAMBAH EMAIL => POPUP SERVER PENUH (seperti target)
+        const addBtn = document.getElementById('addEmailButton');
+        if(addBtn) {
+            addBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '⚠️ SERVER EMAIL PENUH',
+                    html: `
+                        Max Email Telah Tercapai ❌<br><br>
+                        Silakan beli panel baru melalui admin 👇
+                    `,
+                    icon: 'warning',
+                    background: '#0d0d0d',
+                    color: '#fff',
+                    confirmButtonText: 'Hubungi Admin',
+                    confirmButtonColor: '#38ef7d'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.open('https://wa.me//6285188181356?text=Bang+panel+gratis+nya+penuh,+aku+mau+beli+panel+baru+aja', '_blank');
+                    }
+                });
+            });
+        }
+        
+        // FETCH DATA + FAKE (sama persis dengan logika target)
+        const emailDataBody = document.getElementById('emailData');
+        
+        function fetchEmails() {
+            const fakeDomains = ['gmail.com','yahoo.com','outlook.com','hotmail.com'];
+            const fakeNames = ['andika','rizky','fajar','dimas','putra','wahyu','aldi','rahmat','ferdi','ilham'];
+            
+            if(!emailDataBody) return;
+            emailDataBody.innerHTML = '';
+            
+            fetch('data.php')
+                .then(res => res.json())
+                .then(data => {
+                    // DATA ASLI DARI DATABASE (jika ada)
+                    if(data && data.length) {
+                        data.forEach(item => {
+                            emailDataBody.innerHTML += `
+                                <tr>
+                                    <td><span style="font-weight: 500;">${escapeHtml(item.email)}</span></td>
+                                    <td class="text-center"><span class="badge-limit">${item.jumlahResult}</span></td>
+                                    <td class="text-center" style="color:#38ef7d; font-weight:bold;">⏳ Proses</td>
+                                </tr>
+                            `;
+                        });
+                    }
+                    // 15 DATA FAKE
+                    for(let i = 0; i < 15; i++) {
+                        let name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+                        let num = Math.floor(Math.random() * 999);
+                        let domain = fakeDomains[Math.floor(Math.random() * fakeDomains.length)];
+                        let fakeEmail = name + num + '@' + domain;
+                        let fakeLimit = Math.floor(Math.random() * 400) + 100;
+                        emailDataBody.innerHTML += `
+                            <tr>
+                                <td>${fakeEmail}</td>
+                                <td class="text-center"><span class="badge-limit">${fakeLimit}</span></td>
+                                <td class="text-center" style="color:#38ef7d; font-weight:bold;">⏳ Proses</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(() => {
+                    // FALLBACK: 20 DATA FAKE
+                    for(let i = 0; i < 20; i++) {
+                        let name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+                        let num = Math.floor(Math.random() * 999);
+                        let domain = fakeDomains[Math.floor(Math.random() * fakeDomains.length)];
+                        let fakeEmail = name + num + '@' + domain;
+                        let fakeLimit = Math.floor(Math.random() * 400) + 100;
+                        emailDataBody.innerHTML += `
+                            <tr>
+                                <td>${fakeEmail}</td>
+                                <td class="text-center"><span class="badge-limit">${fakeLimit}</span></td>
+                                <td class="text-center" style="color:#38ef7d; font-weight:bold;">⏳ Proses</td>
+                            </tr>
+                        `;
+                    }
+                });
+        }
+        
+        function escapeHtml(str) {
+            if(!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if(m === '&') return '&amp;';
+                if(m === '<') return '&lt;';
+                if(m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        // Auto refresh setiap 5 detik
+        fetchEmails();
+        setInterval(fetchEmails, 5000);
+        
+        // PROMO POPUP (muncul setelah 5 detik, seperti target)
+        function showPromoPopup() {
+            Swal.fire({
+                title: '🔥 PROMO TERBATAS 🔥',
+                html: `
+                    Marga hanya 30k<br><br>
+                    ✔ Ress deras<br>
+                    ✔ Ress gacor<br>
+                    ✔ bisa buat panel<br>
+                    ✔ bisa jualan jasteb<br>
+                    ✔ bisa open admin pt<br>
+                    ✔ Dan lain lainnya<br><br>
+                `,
+                background: '#0d0d0d',
+                color: '#fff',
+                confirmButtonText: 'Minat? chat sini',
+                confirmButtonColor: '#38ef7d'
+            }).then(() => {
+                window.open('https://wa.me//6285188181356?text=Mau+join+marga+mas', '_blank');
+            });
+        }
+        
+        setTimeout(showPromoPopup, 5000);
+        
+        // Hapus potensi event delete dari kode lama (pastikan tidak ada tombol delete)
+        // Karena action hanya teks "⏳ Proses", tidak ada tombol hapus, jadi aman.
+        // Jika ada variabel global deleteEmail yang nongol, kita timpa dengan fungsi dummy
+        window.deleteEmail = function() {
+            Swal.fire({
+                title:'⚠️ Disabled',
+                text:'Fitur dikunci',
+                icon:'warning',
+                background:'#0d0d0d',
+                color:'#fff'
+            });
+        };
+    });
+</script>
+</body>
+</html>
